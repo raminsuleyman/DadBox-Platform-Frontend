@@ -112,7 +112,7 @@ export function AuthPage() {
           <Link to="/" className="customer-back-link"><ArrowLeft size={16} /> Təkliflərə qayıt</Link>
           <div className="customer-auth-copy">
             <span className="customer-intro-icon"><Leaf size={24} /></span>
-            <p className="customer-eyebrow">PAYBOX-A XOŞ GƏLMİSİNİZ</p>
+            <p className="customer-eyebrow">Dadbox-a xoş gəlmisiniz</p>
             <h1 id="customer-auth-heading">Yaxşı yeməyə<br /><em>ikinci şans.</em></h1>
             <p>Yaxınlıqdakı ləzzətləri kəşf et, sürpriz qutunu ayır və yerində götür.</p>
           </div>
@@ -124,7 +124,7 @@ export function AuthPage() {
             <button type="button" className={mode === 'register' ? 'customer-tab customer-tab--active' : 'customer-tab'} aria-pressed={mode === 'register'} onClick={() => { setMode('register'); setResult(null); }}>Qeydiyyat</button>
           </div>
           <h2 id="customer-form-heading">{mode === 'recover' ? 'Şifrəni bərpa et' : mode === 'login' ? 'Yenidən xoş gəldin' : 'Hesab yarat'}</h2>
-          <p className="customer-muted">{mode === 'recover' ? 'Bərpa axınının yalnız demo görüntüsüdür.' : mode === 'login' ? 'Demo hesabınla davam et.' : 'PayBox təcrübəsinə qoşulmaq üçün demo hesab yarat.'}</p>
+          <p className="customer-muted">{mode === 'recover' ? 'Bərpa axınının yalnız demo görüntüsüdür.' : mode === 'login' ? 'Demo hesabınla davam et.' : 'Dadbox təcrübəsinə qoşulmaq üçün demo hesab yarat.'}</p>
           <div className="customer-demo-note"><ShieldCheck size={19} aria-hidden="true" /><span><strong>Bu, yalnız nümayişdir.</strong> Giriş və qeydiyyat imitasiya olunur; şifrə yoxlanılmır və təhlükəsiz autentifikasiya yoxdur. Həqiqi şifrənizi və şəxsi məlumatlarınızı daxil etməyin.</span></div>
           {locationNotice && <Notice result={{ ok: true, message: locationNotice }} />}
           {user && <p className="customer-signed-in">Hazırda {user.name} kimi daxil olmusunuz. <Link to={roleRoute(user.role)}>Hesaba keç</Link></p>}
@@ -197,7 +197,7 @@ export function OrdersPage() {
 
   return <main className="customer-page customer-orders-page"><div className="customer-container">
     <Link to="/" className="customer-back-link"><ArrowLeft size={16} /> Təkliflərə qayıt</Link>
-    <div className="customer-heading-row"><PageHeading eyebrow="SƏNİN PAYBOX-UN" title="Sifarişlərim" description="Rezervasiyalarınız və götürmə məlumatlarınız bir yerdə." /><Link className="customer-text-link" to="/profile">Profilim <ArrowRight size={16} /></Link></div>
+    <div className="customer-heading-row"><PageHeading eyebrow="Dadbox sifarişləri" title="Sifarişlərim" description="Rezervasiyalarınız və götürmə məlumatlarınız bir yerdə." /><Link className="customer-text-link" to="/profile">Profilim <ArrowRight size={16} /></Link></div>
     <div className="customer-order-tabs" aria-label="Sifariş bölmələri">
       <button type="button" className={tab === 'active' ? 'customer-order-tab customer-order-tab--active' : 'customer-order-tab'} aria-pressed={tab === 'active'} onClick={() => setTab('active')}>Aktiv <span>{active.length}</span></button>
       <button type="button" className={tab === 'history' ? 'customer-order-tab customer-order-tab--active' : 'customer-order-tab'} aria-pressed={tab === 'history'} onClick={() => setTab('history')}>Keçmiş <span>{history.length}</span></button>
