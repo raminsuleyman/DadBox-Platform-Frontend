@@ -8,7 +8,7 @@ export const demoUsers: User[] = [
   { id: 'u-customer', name: 'Aysel Məmmədova', email: 'musteri@paybox.az', phone: '+994 50 123 45 67', role: 'customer' },
   { id: 'u-business', name: 'Leyla Əliyeva', email: 'biznes@paybox.az', phone: '+994 50 222 33 44', role: 'business' },
   { id: 'u-business-2', name: 'Rəşad Həsənov', email: 'merkez@paybox.az', phone: '+994 55 333 44 55', role: 'business' },
-  { id: 'u-admin', name: 'PayBox Admin', email: 'admin@paybox.az', phone: '', role: 'admin' },
+  { id: 'u-admin', name: 'Dadbox Admin', email: 'admin@paybox.az', phone: '', role: 'admin' },
 ];
 const businesses: Business[] = [
   { id:'b1', ownerId:'u-business', name:'Baku Bakehouse', category:'Çörək evi', description:'Hər gün sevgi ilə hazırlanan təzə çörəklər, kruassanlar və şirniyyatlar.', address:'Nizami küçəsi 96, Səbail, Bakı', phone:'+994 50 222 33 44', lat:40.3733, lng:49.8428, status:'APPROVED', image:'/images/bakery.jpg', rating:4.9, reviewCount:128, createdAt:ago(40) },
