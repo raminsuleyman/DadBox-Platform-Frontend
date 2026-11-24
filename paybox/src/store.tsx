@@ -9,12 +9,62 @@ const fail = (message: string): ActionResult => ({ ok: false, message });
 const uid = () => globalThis.crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2) + Date.now().toString(36);
 const now = () => new Date().toISOString();
 const money = (n: number) => Math.round(n * 100) / 100;
-function loadData(): AppData { try { const saved = localStorage.getItem(DATA_KEY); return saved ? JSON.parse(saved) as AppData : createSeedData(); } catch { return createSeedData(); } }
+const defaultBoxOffsets: Record<string, { start: number; end: number; quantity: number }> = {
+  box1: { start: -0.5, end: 3, quantity: 5 },
+  box2: { start: 1, end: 5, quantity: 3 },
+  box3: { start: 2, end: 7, quantity: 7 },
+  box4: { start: 2, end: 6, quantity: 2 },
+  box5: { start: 1, end: 8, quantity: 4 },
+  box6: { start: 1, end: 9, quantity: 6 },
+};
+function loadData(): AppData {
+  try {
+    const saved = localStorage.getItem(DATA_KEY);
+    if (!saved) return createSeedData();
+    const parsed = JSON.parse(saved) as AppData;
+    if (!parsed || !Array.isArray(parsed.boxes) || parsed.boxes.length === 0) return createSeedData();
+    return parsed;
+  } catch {
+    return createSeedData();
+  }
+}
 function expire(data: AppData): AppData {
   const timestamp = Date.now();
   const expired = new Set(data.boxes.filter(b => new Date(b.pickupEnd).getTime() <= timestamp).map(b => b.id));
-  if (!data.reservations.some(r => expired.has(r.boxId) && ['PENDING','CONFIRMED'].includes(r.status))) return data;
-  return { ...data, reservations: data.reservations.map(r => expired.has(r.boxId) && ['PENDING','CONFIRMED'].includes(r.status) ? { ...r, status:'EXPIRED' as const } : r) };
+  const hasExpiredReservations = data.reservations.some(r => expired.has(r.boxId) && ['PENDING','CONFIRMED'].includes(r.status));
+  const hasExpiredActiveBoxes = data.boxes.some(b => b.status === 'ACTIVE' && new Date(b.pickupEnd).getTime() <= timestamp);
+
+  if (!hasExpiredReservations && !hasExpiredActiveBoxes) return data;
+
+  const nextReservations = hasExpiredReservations
+    ? data.reservations.map(r => expired.has(r.boxId) && ['PENDING','CONFIRMED'].includes(r.status) ? { ...r, status: 'EXPIRED' as const } : r)
+    : data.reservations;
+
+  const nextBoxes = hasExpiredActiveBoxes
+    ? data.boxes.map(b => {
+        if (b.status === 'ACTIVE' && new Date(b.pickupEnd).getTime() <= timestamp) {
+          const config = defaultBoxOffsets[b.id];
+          if (config) {
+            return {
+              ...b,
+              quantity: b.quantity <= 0 ? config.quantity : b.quantity,
+              pickupStart: new Date(timestamp + config.start * 3600000).toISOString(),
+              pickupEnd: new Date(timestamp + config.end * 3600000).toISOString(),
+            };
+          }
+          const dur = Math.max(3600000, new Date(b.pickupEnd).getTime() - new Date(b.pickupStart).getTime());
+          return {
+            ...b,
+            quantity: b.quantity <= 0 ? 1 : b.quantity,
+            pickupStart: new Date(timestamp).toISOString(),
+            pickupEnd: new Date(timestamp + dur).toISOString(),
+          };
+        }
+        return b;
+      })
+    : data.boxes;
+
+  return { ...data, boxes: nextBoxes, reservations: nextReservations };
 }
 const Context = createContext<Store | null>(null);
 export function useApp(): Store { const value = useContext(Context); if (!value) throw new Error('Store provider missing'); return value; }

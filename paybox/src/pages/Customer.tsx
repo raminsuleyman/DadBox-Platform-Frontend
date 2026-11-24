@@ -72,15 +72,15 @@ export function AuthPage() {
       return;
     }
     if (!validEmail(email)) {
-      setResult({ ok: false, message: 'Düzgün demo e-poçt ünvanı daxil edin.' });
+      setResult({ ok: false, message: 'Düzgün e-poçt ünvanı daxil edin.' });
       return;
     }
     if (mode === 'recover') {
-      setResult({ ok: true, message: 'Demo bərpa sorğusu göstərildi. Həqiqi e-poçt göndərilmir və şifrə dəyişdirilmir.' });
+      setResult({ ok: true, message: 'Bərpa sorğusu göstərildi. Həqiqi e-poçt göndərilmir və şifrə dəyişdirilmir.' });
       return;
     }
     if (password.length < 6) {
-      setResult({ ok: false, message: 'Demo şifrə ən azı 6 simvol olmalıdır.' });
+      setResult({ ok: false, message: 'Şifrə ən azı 6 simvol olmalıdır.' });
       return;
     }
     const cleanEmail = email.trim();
@@ -98,7 +98,7 @@ export function AuthPage() {
     const demoId: Record<Role, string> = { customer: 'u-customer', business: 'u-business', admin: 'u-admin' };
     const account = data.users.find((item) => item.id === demoId[selectedRole]);
     if (!account || account.suspended) {
-      setResult({ ok: false, message: 'Bu demo hesabı mövcud deyil və ya bloklanıb.' });
+      setResult({ ok: false, message: 'Bu hesab mövcud deyil və ya bloklanıb.' });
       return;
     }
     switchDemo(selectedRole);
@@ -113,7 +113,7 @@ export function AuthPage() {
           <div className="customer-auth-copy">
             <span className="customer-intro-icon"><Leaf size={24} /></span>
             <p className="customer-eyebrow">Dadbox-a xoş gəlmisiniz</p>
-            <h1 id="customer-auth-heading">Yaxşı yeməyə<br /><em>ikinci şans.</em></h1>
+            <h1 id="customer-auth-heading">Yaxşı yeməyə<br /><em>ikinci şans</em></h1>
             <p>Yaxınlıqdakı ləzzətləri kəşf et, sürpriz qutunu ayır və yerində götür.</p>
           </div>
           <div className="customer-auth-intro-bottom"><span>DAHA AZ İSRAF</span><span>DAHA ÇOX LƏZZƏT</span></div>
@@ -124,7 +124,7 @@ export function AuthPage() {
             <button type="button" className={mode === 'register' ? 'customer-tab customer-tab--active' : 'customer-tab'} aria-pressed={mode === 'register'} onClick={() => { setMode('register'); setResult(null); }}>Qeydiyyat</button>
           </div>
           <h2 id="customer-form-heading">{mode === 'recover' ? 'Şifrəni bərpa et' : mode === 'login' ? 'Yenidən xoş gəldin' : 'Hesab yarat'}</h2>
-          <p className="customer-muted">{mode === 'recover' ? 'Bərpa axınının yalnız demo görüntüsüdür.' : mode === 'login' ? 'Demo hesabınla davam et.' : 'Dadbox təcrübəsinə qoşulmaq üçün demo hesab yarat.'}</p>
+          <p className="customer-muted">{mode === 'recover' ? 'Bərpa axınının yalnız demo görüntüsüdür.' : mode === 'login' ? 'Hesabınla davam et.' : 'Dadbox təcrübəsinə qoşulmaq üçün hesab yarat.'}</p>
           <div className="customer-demo-note"><ShieldCheck size={19} aria-hidden="true" /><span><strong>Bu, yalnız nümayişdir.</strong> Giriş və qeydiyyat imitasiya olunur; şifrə yoxlanılmır və təhlükəsiz autentifikasiya yoxdur. Həqiqi şifrənizi və şəxsi məlumatlarınızı daxil etməyin.</span></div>
           {locationNotice && <Notice result={{ ok: true, message: locationNotice }} />}
           {user && <p className="customer-signed-in">Hazırda {user.name} kimi daxil olmusunuz. <Link to={roleRoute(user.role)}>Hesaba keç</Link></p>}
@@ -135,12 +135,12 @@ export function AuthPage() {
                 <label className={role === 'customer' ? 'customer-role-option customer-role-option--selected' : 'customer-role-option'}><input type="radio" name="customer-registration-role" value="customer" checked={role === 'customer'} onChange={() => setRole('customer')} /> Müştəri</label>
                 <label className={role === 'business' ? 'customer-role-option customer-role-option--selected' : 'customer-role-option'}><input type="radio" name="customer-registration-role" value="business" checked={role === 'business'} onChange={() => setRole('business')} /> Biznes</label>
               </div></fieldset>
-              <label htmlFor="customer-auth-name">Ad və soyad</label><input id="customer-auth-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Demo istifadəçi" autoComplete="off" required minLength={2} />
+              <label htmlFor="customer-auth-name">Ad və soyad</label><input id="customer-auth-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="istifadəçi" autoComplete="off" required minLength={2} />
             </>}
-            <label htmlFor="customer-auth-email">Demo e-poçt</label><input id="customer-auth-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="demo@example.com" autoComplete="off" required />
-            {mode === 'register' && <><label htmlFor="customer-auth-phone">Demo telefon <span className="customer-optional">(istəyə bağlı)</span></label><input id="customer-auth-phone" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Demo telefon nömrəsi" autoComplete="off" /></>}
-            {mode !== 'recover' && <><label htmlFor="customer-auth-password">Demo şifrə</label><input id="customer-auth-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Uydurma şifrə, ən azı 6 simvol" autoComplete="new-password" required minLength={6} /></>}
-            <button className="customer-button customer-button--primary customer-button--wide" type="submit">{mode === 'recover' ? 'Demo sorğu göndər' : mode === 'login' ? 'Daxil ol' : 'Demo hesab yarat'} <ArrowRight size={17} /></button>
+            <label htmlFor="customer-auth-email">Demo e-poçt</label><input id="customer-auth-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="username@example.com" autoComplete="off" required />
+            {mode === 'register' && <><label htmlFor="customer-auth-phone">Demo telefon <span className="customer-optional">(istəyə bağlı)</span></label><input id="customer-auth-phone" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Telefon nömrəsi" autoComplete="off" /></>}
+            {mode !== 'recover' && <><label htmlFor="customer-auth-password">Demo şifrə</label><input id="customer-auth-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Şifrə, ən azı 6 simvol" autoComplete="new-password" required minLength={6} /></>}
+            <button className="customer-button customer-button--primary customer-button--wide" type="submit">{mode === 'recover' ? 'Sorğu göndər' : mode === 'login' ? 'Daxil ol' : 'Hesab yarat'} <ArrowRight size={17} /></button>
             {mode === 'login' && <button type="button" className="customer-button customer-button--subtle" onClick={() => { setMode('recover'); setResult(null); }}>Şifrəni unutmusunuz?</button>}
             {mode === 'recover' && <button type="button" className="customer-button customer-button--subtle" onClick={() => { setMode('login'); setResult(null); }}>Girişə qayıt</button>}
           </form>
@@ -186,7 +186,7 @@ export function OrdersPage() {
   const [result, setResult] = useState<ActionResult | null>(() => new URLSearchParams(location.search).has('success')
     ? { ok: true, message: 'Rezervasiya yaradıldı. Ödənişi götürərkən edin.' }
     : null);
-  if (!user) return <AccessMessage title="Sifarişlərinizə baxın" message="Rezervasiyalarınızı görmək üçün demo hesabınıza daxil olun." action="Daxil ol" to="/auth" />;
+  if (!user) return <AccessMessage title="Sifarişlərinizə baxın" message="Rezervasiyalarınızı görmək üçün hesabınıza daxil olun." action="Daxil ol" to="/auth" />;
   if (user.role !== 'customer') return <AccessMessage title="Bu səhifə müştərilər üçündür" message="Sifariş siyahısı yalnız müştəri hesabında görünür." action="Öz panelinə keç" to={roleRoute(user.role)} />;
 
   const orders = data.reservations.filter((reservation) => reservation.customerId === user.id).slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
